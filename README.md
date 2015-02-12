@@ -1,3 +1,5 @@
+# IN PROCESS: PORTING FROM simplon/mysql
+
 <pre>
      _                 _                                         _ 
  ___(_)_ __ ___  _ __ | | ___  _ __    _ __ ___  _   _ ___  __ _| |
