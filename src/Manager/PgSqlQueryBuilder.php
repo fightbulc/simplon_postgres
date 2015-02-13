@@ -3,11 +3,11 @@
 namespace Simplon\Postgres\Manager;
 
 /**
- * SqlQueryBuilder
+ * PgSqlQueryBuilder
  * @package Simplon\Postgres\Manager
  * @author Tino Ehrich (tino@bigpun.me)
  */
-class SqlQueryBuilder
+class PgSqlQueryBuilder
 {
     /** @var string */
     protected $tableName;
@@ -30,7 +30,7 @@ class SqlQueryBuilder
     /**
      * @param $query string
      *
-     * @return SqlQueryBuilder
+     * @return PgSqlQueryBuilder
      */
     public function setQuery($query)
     {
@@ -50,7 +50,7 @@ class SqlQueryBuilder
     /**
      * @param $conditions array
      *
-     * @return SqlQueryBuilder
+     * @return PgSqlQueryBuilder
      */
     public function setConditions($conditions)
     {
@@ -88,7 +88,7 @@ class SqlQueryBuilder
      * @param $key
      * @param $value
      *
-     * @return SqlQueryBuilder
+     * @return PgSqlQueryBuilder
      */
     protected function addCondition($key, $value)
     {
@@ -105,7 +105,7 @@ class SqlQueryBuilder
     /**
      * @param string $conditionsQuery
      *
-     * @return SqlQueryBuilder
+     * @return PgSqlQueryBuilder
      */
     public function setConditionsQuery($conditionsQuery)
     {
@@ -130,7 +130,7 @@ class SqlQueryBuilder
     /**
      * @param array $data
      *
-     * @return SqlQueryBuilder
+     * @return PgSqlQueryBuilder
      */
     public function setData($data)
     {
@@ -158,7 +158,7 @@ class SqlQueryBuilder
     /**
      * @param $tableName string
      *
-     * @return SqlQueryBuilder
+     * @return PgSqlQueryBuilder
      */
     public function setTableName($tableName)
     {
@@ -178,7 +178,7 @@ class SqlQueryBuilder
     /**
      * @param $insertIgnore
      *
-     * @return SqlQueryBuilder
+     * @return PgSqlQueryBuilder
      */
     public function enableInsertIgnore($insertIgnore)
     {

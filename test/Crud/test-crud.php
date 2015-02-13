@@ -19,7 +19,7 @@ $dbh = new \Simplon\Postgres\Postgres(
 
 // ############################################
 
-$sqlCrudManager = new \Simplon\Postgres\Crud\SqlCrudManager($dbh);
+$sqlCrudManager = new \Simplon\Postgres\Crud\PgSqlCrudManager($dbh);
 
 //$userVo = (new UserVo())
 //    ->setId(null)
@@ -32,8 +32,8 @@ $sqlCrudManager = new \Simplon\Postgres\Crud\SqlCrudManager($dbh);
 
 // ----------------------------------------------
 
-/** @var UserVo $userVo */
-$userVo = $sqlCrudManager->read(new UserVo(), ['id' => 1]);
+/** @var UserVoPg $userVo */
+$userVo = $sqlCrudManager->read(new UserVoPg(), ['id' => 1]);
 var_dump($userVo);
 echo '<hr>';
 

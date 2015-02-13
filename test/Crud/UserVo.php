@@ -1,6 +1,6 @@
 <?php
 
-class UserVo extends \Simplon\Postgres\Crud\SqlCrudVo
+class UserVoPg extends \Simplon\Postgres\Crud\PgPgSqlCrudVo
 {
     protected $crudIgnoreVariables = ['undefined'];
     protected $id;
@@ -52,7 +52,7 @@ class UserVo extends \Simplon\Postgres\Crud\SqlCrudVo
     /**
      * @param int $createdAt
      *
-     * @return UserVo
+     * @return UserVoPg
      */
     public function setCreatedAt($createdAt)
     {
@@ -72,7 +72,7 @@ class UserVo extends \Simplon\Postgres\Crud\SqlCrudVo
     /**
      * @param string $email
      *
-     * @return UserVo
+     * @return UserVoPg
      */
     public function setEmail($email)
     {
@@ -92,7 +92,7 @@ class UserVo extends \Simplon\Postgres\Crud\SqlCrudVo
     /**
      * @param int $id
      *
-     * @return UserVo
+     * @return UserVoPg
      */
     public function setId($id)
     {
@@ -112,7 +112,7 @@ class UserVo extends \Simplon\Postgres\Crud\SqlCrudVo
     /**
      * @param string $name
      *
-     * @return UserVo
+     * @return UserVoPg
      */
     public function setName($name)
     {
@@ -132,7 +132,7 @@ class UserVo extends \Simplon\Postgres\Crud\SqlCrudVo
     /**
      * @param int $updatedAt
      *
-     * @return UserVo
+     * @return UserVoPg
      */
     public function setUpdatedAt($updatedAt)
     {

@@ -5,7 +5,7 @@ namespace Simplon\Postgres\Manager;
 use Simplon\Postgres\Postgres;
 use Simplon\Postgres\PostgresQueryIterator;
 
-class SqlManager
+class PgSqlManager
 {
     /** @var Postgres */
     protected $dbInstance;
@@ -37,11 +37,11 @@ class SqlManager
     }
 
     /**
-     * @param SqlQueryBuilder $sqlBuilder
+     * @param PgSqlQueryBuilder $sqlBuilder
      *
      * @return bool
      */
-    public function executeSql(SqlQueryBuilder $sqlBuilder)
+    public function executeSql(PgSqlQueryBuilder $sqlBuilder)
     {
         return $this
             ->getDbInstance()
@@ -49,11 +49,11 @@ class SqlManager
     }
 
     /**
-     * @param SqlQueryBuilder $sqlBuilder
+     * @param PgSqlQueryBuilder $sqlBuilder
      *
      * @return bool|string
      */
-    public function fetchColumn(SqlQueryBuilder $sqlBuilder)
+    public function fetchColumn(PgSqlQueryBuilder $sqlBuilder)
     {
         $result = $this
             ->getDbInstance()
@@ -68,11 +68,11 @@ class SqlManager
     }
 
     /**
-     * @param SqlQueryBuilder $sqlBuilder
+     * @param PgSqlQueryBuilder $sqlBuilder
      *
      * @return array|bool
      */
-    public function fetchColumnMany(SqlQueryBuilder $sqlBuilder)
+    public function fetchColumnMany(PgSqlQueryBuilder $sqlBuilder)
     {
         $result = $this
             ->getDbInstance()
@@ -87,11 +87,11 @@ class SqlManager
     }
 
     /**
-     * @param SqlQueryBuilder $sqlBuilder
+     * @param PgSqlQueryBuilder $sqlBuilder
      *
      * @return PostgresQueryIterator
      */
-    public function fetchColumnManyCursor(SqlQueryBuilder $sqlBuilder)
+    public function fetchColumnManyCursor(PgSqlQueryBuilder $sqlBuilder)
     {
         return $this
             ->getDbInstance()
@@ -99,11 +99,11 @@ class SqlManager
     }
 
     /**
-     * @param SqlQueryBuilder $sqlBuilder
+     * @param PgSqlQueryBuilder $sqlBuilder
      *
      * @return array|bool
      */
-    public function fetchRow(SqlQueryBuilder $sqlBuilder)
+    public function fetchRow(PgSqlQueryBuilder $sqlBuilder)
     {
         $result = $this
             ->getDbInstance()
@@ -118,11 +118,11 @@ class SqlManager
     }
 
     /**
-     * @param SqlQueryBuilder $sqlBuilder
+     * @param PgSqlQueryBuilder $sqlBuilder
      *
      * @return array|bool
      */
-    public function fetchRowMany(SqlQueryBuilder $sqlBuilder)
+    public function fetchRowMany(PgSqlQueryBuilder $sqlBuilder)
     {
         $result = $this
             ->getDbInstance()
@@ -137,11 +137,11 @@ class SqlManager
     }
 
     /**
-     * @param SqlQueryBuilder $sqlBuilder
+     * @param PgSqlQueryBuilder $sqlBuilder
      *
      * @return PostgresQueryIterator
      */
-    public function fetchRowManyCursor(SqlQueryBuilder $sqlBuilder)
+    public function fetchRowManyCursor(PgSqlQueryBuilder $sqlBuilder)
     {
         return $this
             ->getDbInstance()
@@ -149,11 +149,11 @@ class SqlManager
     }
 
     /**
-     * @param SqlQueryBuilder $sqlBuilder
+     * @param PgSqlQueryBuilder $sqlBuilder
      *
      * @return array|null
      */
-    public function insert(SqlQueryBuilder $sqlBuilder)
+    public function insert(PgSqlQueryBuilder $sqlBuilder)
     {
         if ($sqlBuilder->hasMultiData())
         {
@@ -174,11 +174,11 @@ class SqlManager
     }
 
     /**
-     * @param SqlQueryBuilder $sqlBuilder
+     * @param PgSqlQueryBuilder $sqlBuilder
      *
      * @return array|null
      */
-    public function replace(SqlQueryBuilder $sqlBuilder)
+    public function replace(PgSqlQueryBuilder $sqlBuilder)
     {
         if ($sqlBuilder->hasMultiData())
         {
@@ -197,11 +197,11 @@ class SqlManager
     }
 
     /**
-     * @param SqlQueryBuilder $sqlBuilder
+     * @param PgSqlQueryBuilder $sqlBuilder
      *
      * @return bool
      */
-    public function update(SqlQueryBuilder $sqlBuilder)
+    public function update(PgSqlQueryBuilder $sqlBuilder)
     {
         return $this->getDbInstance()
             ->update(
@@ -213,11 +213,11 @@ class SqlManager
     }
 
     /**
-     * @param SqlQueryBuilder $sqlBuilder
+     * @param PgSqlQueryBuilder $sqlBuilder
      *
      * @return bool
      */
-    public function delete(SqlQueryBuilder $sqlBuilder)
+    public function delete(PgSqlQueryBuilder $sqlBuilder)
     {
         return $this->getDbInstance()
             ->delete(

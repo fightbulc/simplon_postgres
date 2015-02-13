@@ -3,11 +3,11 @@
 namespace Simplon\Postgres\Crud;
 
 /**
- * Interface SqlCrudInterface
+ * Interface PgSqlCrudInterface
  * @package Simplon\Postgres\Crud
  * @author Tino Ehrich (tino@bigpun.me)
  */
-interface SqlCrudInterface
+interface PgSqlCrudInterface
 {
     /**
      * @return string

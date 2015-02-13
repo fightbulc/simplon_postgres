@@ -6,11 +6,11 @@ use Simplon\Postgres\Postgres;
 use Simplon\Postgres\PostgresException;
 
 /**
- * SqlCrudManager
+ * PgSqlCrudManager
  * @package Simplon\Postgres\Crud
  * @author Tino Ehrich (tino@bigpun.me)
  */
-class SqlCrudManager
+class PgSqlCrudManager
 {
     /** @var \Simplon\Postgres\Postgres */
     protected $dbInstance;
@@ -62,11 +62,11 @@ class SqlCrudManager
     }
 
     /**
-     * @param SqlCrudInterface $sqlCrudInterface
+     * @param PgSqlCrudInterface $sqlCrudInterface
      *
      * @return array
      */
-    protected function getData(SqlCrudInterface &$sqlCrudInterface)
+    protected function getData(PgSqlCrudInterface &$sqlCrudInterface)
     {
         $data = array();
 
@@ -80,12 +80,12 @@ class SqlCrudManager
     }
 
     /**
-     * @param SqlCrudInterface $sqlCrudInterface
+     * @param PgSqlCrudInterface $sqlCrudInterface
      * @param array $data
      *
-     * @return SqlCrudInterface
+     * @return PgSqlCrudInterface
      */
-    protected function setData(SqlCrudInterface $sqlCrudInterface, array $data)
+    protected function setData(PgSqlCrudInterface $sqlCrudInterface, array $data)
     {
         $columns = array_flip($sqlCrudInterface->crudColumns());
 
@@ -102,13 +102,13 @@ class SqlCrudManager
     }
 
     /**
-     * @param SqlCrudInterface $sqlCrudInterface
+     * @param PgSqlCrudInterface $sqlCrudInterface
      * @param bool $insertIgnore
      *
-     * @return bool|SqlCrudInterface
+     * @return bool|PgSqlCrudInterface
      * @throws PostgresException
      */
-    public function create(SqlCrudInterface $sqlCrudInterface, $insertIgnore = false)
+    public function create(PgSqlCrudInterface $sqlCrudInterface, $insertIgnore = false)
     {
         // do something before we save
         $sqlCrudInterface->crudBeforeSave(true);
@@ -138,14 +138,14 @@ class SqlCrudManager
     }
 
     /**
-     * @param SqlCrudInterface $sqlCrudInterface
+     * @param PgSqlCrudInterface $sqlCrudInterface
      * @param array $conds
      * @param null $sortBy
      * @param null $condsQuery
      *
-     * @return bool|SqlCrudInterface
+     * @return bool|PgSqlCrudInterface
      */
-    public function read(SqlCrudInterface $sqlCrudInterface, array $conds, $sortBy = null, $condsQuery = null)
+    public function read(PgSqlCrudInterface $sqlCrudInterface, array $conds, $sortBy = null, $condsQuery = null)
     {
         // handle custom query
         $query = $sqlCrudInterface->crudGetQuery();
@@ -174,14 +174,14 @@ class SqlCrudManager
     }
 
     /**
-     * @param SqlCrudInterface $sqlCrudInterface
+     * @param PgSqlCrudInterface $sqlCrudInterface
      * @param array $conds
      * @param null $sortBy
      * @param null $condsQuery
      *
-     * @return bool|SqlCrudInterface[]
+     * @return bool|PgSqlCrudInterface[]
      */
-    public function readMany(SqlCrudInterface $sqlCrudInterface, array $conds = array(), $sortBy = null, $condsQuery = null)
+    public function readMany(PgSqlCrudInterface $sqlCrudInterface, array $conds = array(), $sortBy = null, $condsQuery = null)
     {
         // handle custom query
         $query = $sqlCrudInterface->crudGetQuery();
@@ -224,14 +224,14 @@ class SqlCrudManager
     }
 
     /**
-     * @param SqlCrudInterface $sqlCrudInterface
+     * @param PgSqlCrudInterface $sqlCrudInterface
      * @param array $conds
      * @param null $condsQuery
      *
-     * @return bool|SqlCrudInterface
+     * @return bool|PgSqlCrudInterface
      * @throws \Simplon\Postgres\PostgresException
      */
-    public function update(SqlCrudInterface $sqlCrudInterface, array $conds, $condsQuery = null)
+    public function update(PgSqlCrudInterface $sqlCrudInterface, array $conds, $condsQuery = null)
     {
         // do something before we save
         $sqlCrudInterface->crudBeforeSave(false);

@@ -4,9 +4,9 @@ require __DIR__ . '/../vendor/autoload.php';
 
 $config = [
     'server'   => 'localhost',
-    'username' => 'rootuser',
-    'password' => 'rootuser',
-    'database' => 'beatguide_devel_service',
+    'username' => 'fightbulc',
+    'password' => '',
+    'database' => 'foobar',
 ];
 
 $dbh = new \Simplon\Postgres\Postgres(
@@ -16,6 +16,15 @@ $dbh = new \Simplon\Postgres\Postgres(
     $config['database']
 );
 
+$data = [
+    'city' => 'Berlin',
+    'temp_lo' => -10,
+    'temp_hi' => 36,
+    'prcp' => 0.25,
+    'date' => '2015-02-12',
+];
+$dbh->insert('weather', $data);
+die(var_dump($dbh->fetchColumn('SELECT * FROM weather')));
 // ############################################
 
 $query = 'SELECT * FROM events WHERE venue_id = :venueId LIMIT 10';

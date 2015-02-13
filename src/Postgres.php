@@ -34,7 +34,7 @@ class Postgres
         try
         {
             // use host
-            $dns = 'mysql:host=' . $host;
+            $dns = 'pgsql:host=' . $host;
 
             if (isset($options['port']))
             {
@@ -48,7 +48,7 @@ class Postgres
             }
 
             $dns .= ';dbname=' . $database;
-            $dns .= ';charset=' . $charset;
+            $dns .= ';options=--client_encoding=\'' . $charset . '\'';
 
             // ------------------------------
 
