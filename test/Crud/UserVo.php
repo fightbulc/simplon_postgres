@@ -1,6 +1,6 @@
 <?php
 
-class UserVoPg extends \Simplon\Postgres\Crud\PgPgSqlCrudVo
+class UserVoPg extends \Simplon\Postgres\Crud\PgSqlCrudVo
 {
     protected $crudIgnoreVariables = ['undefined'];
     protected $id;

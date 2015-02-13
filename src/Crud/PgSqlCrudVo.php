@@ -3,11 +3,11 @@
 namespace Simplon\Postgres\Crud;
 
 /**
- * PgPgSqlCrudVo
+ * PgSqlCrudVo
  * @package Simplon\Postgres\Crud
  * @author Tino Ehrich (tino@bigpun.me)
  */
-abstract class PgPgSqlCrudVo implements PgSqlCrudInterface
+abstract class PgSqlCrudVo implements PgSqlCrudInterface
 {
     /** @var string */
     protected static $crudSource;
