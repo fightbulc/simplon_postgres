@@ -25,35 +25,28 @@ class Postgres
     protected $lastStatement;
 
     /**
-     * @param $host
-     * @param $user
-     * @param $password
-     * @param $database
+     * @param string $host
+     * @param string $user
+     * @param string $password
+     * @param string $database
+     * @param int $port
      * @param int $fetchMode
      * @param string $charset
      * @param array $options
      *
      * @throws PostgresException
      */
-    public function __construct($host, $user, $password, $database, $fetchMode = \PDO::FETCH_ASSOC, $charset = 'utf8', array $options = array())
+    public function __construct($host, $user, $password, $database, $port = 5432, $fetchMode = \PDO::FETCH_ASSOC, $charset = 'utf8', array $options = array())
     {
         try
         {
-            // use host
-            $dns = 'pgsql:host=' . $host;
-
-            if (isset($options['port']))
-            {
-                $dns .= ';port=' . $options['port'];
-            }
-
-            $dns .= ';dbname=' . $database;
-            $dns .= ';options=--client_encoding=\'' . $charset . '\'';
-
-            // ------------------------------
+            // setup dns
+            $dns = 'pgsql:host=' . $host . ';port=' . $port . ';dbname=' . $database . ';options=--client_encoding=\'' . $charset . '\'';
 
             // create PDO instance
-            $this->setDbh(new \PDO($dns, $user, $password));
+            $this->setDbh(
+                new \PDO($dns, $user, $password)
+            );
 
             // set fetchMode
             $this->setFetchMode($fetchMode);
