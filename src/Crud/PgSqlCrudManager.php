@@ -75,7 +75,7 @@ class PgSqlCrudManager
         $query = $sqlCrudInterface->crudGetQuery();
 
         // fallback to standard query
-        if ($query === '')
+        if ($query === null)
         {
             $query = "SELECT * FROM {$sqlCrudInterface::crudGetSource()} WHERE {$this->getCondsQuery($conds, $condsQuery)}";
         }
@@ -111,7 +111,7 @@ class PgSqlCrudManager
         $query = $sqlCrudInterface->crudGetQuery();
 
         // fallback to standard query
-        if ($query === '')
+        if ($query === null)
         {
             $query = "SELECT * FROM {$sqlCrudInterface::crudGetSource()}";
         }
