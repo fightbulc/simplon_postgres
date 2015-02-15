@@ -12,7 +12,7 @@ interface PgSqlCrudInterface
     /**
      * @return string
      */
-    public function crudGetSource();
+    public static function crudGetSource();
 
     /**
      * @return string

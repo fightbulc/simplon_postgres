@@ -32,7 +32,7 @@ abstract class PgSqlCrudVo implements PgSqlCrudInterface
     /**
      * @return string
      */
-    public function crudGetSource()
+    public static function crudGetSource()
     {
         if (self::$crudSource === null)
         {
