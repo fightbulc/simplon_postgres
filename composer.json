@@ -3,7 +3,13 @@
     "description": "Simplon PostgreSQL Library",
     "homepage": "https://github.com/fightbulc/simplon_postgres",
     "type": "library",
-    "keywords": ["db", "pdo", "postgres", "manager"],
+    "keywords": [
+        "db",
+        "pdo",
+        "postgres",
+        "pgsql",
+        "manager"
+    ],
     "license": "MIT",
     "authors": [
         {
@@ -12,14 +18,11 @@
             "role": "developer"
         }
     ],
-
     "minimum-stability": "dev",
-
     "require": {
         "php": ">=5.3",
         "ext-pdo": "*"
     },
-
     "autoload": {
         "psr-4": {
             "Simplon\\Postgres\\": "src/"
