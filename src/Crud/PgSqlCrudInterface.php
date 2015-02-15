@@ -15,7 +15,7 @@ interface PgSqlCrudInterface
     public static function crudGetSource();
 
     /**
-     * @return string
+     * @return string|null
      */
     public function crudGetQuery();
 
