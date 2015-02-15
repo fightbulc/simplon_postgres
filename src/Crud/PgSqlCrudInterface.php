@@ -3,7 +3,7 @@
 namespace Simplon\Postgres\Crud;
 
 /**
- * Interface PgSqlCrudInterface
+ * Interface SqlCrudInterface
  * @package Simplon\Postgres\Crud
  * @author Tino Ehrich (tino@bigpun.me)
  */
@@ -12,7 +12,7 @@ interface PgSqlCrudInterface
     /**
      * @return string
      */
-    public static function crudGetSource();
+    public function crudGetSource();
 
     /**
      * @return string

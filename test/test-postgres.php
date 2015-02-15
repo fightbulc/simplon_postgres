@@ -6,7 +6,7 @@ $config = [
     'server'   => 'localhost',
     'username' => 'fightbulc',
     'password' => '',
-    'database' => 'foobar',
+    'database' => 'pushcast_devel_app',
 ];
 
 $dbh = new \Simplon\Postgres\Postgres(
@@ -16,15 +16,6 @@ $dbh = new \Simplon\Postgres\Postgres(
     $config['database']
 );
 
-$data = [
-    'city' => 'Berlin',
-    'temp_lo' => -10,
-    'temp_hi' => 36,
-    'prcp' => 0.25,
-    'date' => '2015-02-12',
-];
-$dbh->insert('weather', $data);
-die(var_dump($dbh->fetchColumn('SELECT * FROM weather')));
 // ############################################
 
 $query = 'SELECT * FROM events WHERE venue_id = :venueId LIMIT 10';
@@ -35,7 +26,7 @@ $conds = array('venueId' => 23);
 echo '<h3>fetchValue</h3>';
 $results = $dbh->fetchColumn($query, $conds);
 var_dump($results);
-die('END');
+
 // ############################################
 
 echo '<h3>fetchValueMany</h3>';
@@ -89,7 +80,6 @@ echo '<h3>insert</h3>';
 
 echo '<h4>with ID response</h4>';
 $data = [
-    'id'   => null,
     'dump' => '{"message":"#One"}',
 ];
 $results = $dbh->insert('import_dump', $data);
@@ -109,15 +99,12 @@ echo '<h3>insertMany</h3>';
 echo '<h4>with ID response</h4>';
 $data = [
     [
-        'id'   => null,
         'dump' => '{"message":"Hello"}',
     ],
     [
-        'id'   => null,
         'dump' => '{"message":"Foo"}',
     ],
     [
-        'id'   => null,
         'dump' => '{"message":"Bar"}',
     ],
 ];
@@ -145,32 +132,6 @@ echo '<h3>update</h3>';
 $conds = ['id' => 1];
 $data = ['dump' => '{"message":"Hello Dad"}'];
 $results = $dbh->update('import_dump', $conds, $data);
-var_dump($results);
-
-// ############################################
-
-echo '<h3>replace</h3>';
-$data = [
-    'id'   => 1,
-    'dump' => '{"message":"#Two"}',
-];
-$results = $dbh->replace('import_dump', $data);
-var_dump($results);
-
-// ############################################
-
-echo '<h3>replaceMany</h3>';
-$data = [
-    [
-        'id'   => 2,
-        'dump' => '{"message":"Hello Mum"}'
-    ],
-    [
-        'id'   => 3,
-        'dump' => '{"message":"Booooh!"}'
-    ],
-];
-$results = $dbh->replaceMany('import_dump', $data);
 var_dump($results);
 
 // ############################################

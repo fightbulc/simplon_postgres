@@ -12,93 +12,17 @@ use Simplon\Postgres\PostgresException;
  */
 class PgSqlCrudManager
 {
-    /** @var \Simplon\Postgres\Postgres */
-    protected $dbInstance;
+    /**
+     * @var Postgres
+     */
+    private $dbInstance;
 
     /**
-     * @param Postgres $mysql
+     * @param Postgres $postgres
      */
-    public function __construct(Postgres $mysql)
+    public function __construct(Postgres $postgres)
     {
-        $this->dbInstance = $mysql;
-    }
-
-    /**
-     * @return Postgres
-     */
-    protected function getDbInstance()
-    {
-        return $this->dbInstance;
-    }
-
-    /**
-     * @param array $conds
-     * @param null $condsQuery
-     *
-     * @return string
-     */
-    protected function getCondsQuery(array $conds, $condsQuery = null)
-    {
-        if ($condsQuery !== null)
-        {
-            return (string)$condsQuery;
-        }
-
-        $condsString = array();
-
-        foreach ($conds as $key => $val)
-        {
-            $query = $key . ' = :' . $key;
-
-            if (is_array($val) === true)
-            {
-                $query = $key . ' IN (:' . $key . ')';
-            }
-
-            $condsString[] = $query;
-        }
-
-        return join(' AND ', $condsString);
-    }
-
-    /**
-     * @param PgSqlCrudInterface $sqlCrudInterface
-     *
-     * @return array
-     */
-    protected function getData(PgSqlCrudInterface &$sqlCrudInterface)
-    {
-        $data = array();
-
-        foreach ($sqlCrudInterface->crudColumns() as $variable => $column)
-        {
-            $methodName = 'get' . ucfirst($variable);
-            $data[$column] = $sqlCrudInterface->$methodName();
-        }
-
-        return $data;
-    }
-
-    /**
-     * @param PgSqlCrudInterface $sqlCrudInterface
-     * @param array $data
-     *
-     * @return PgSqlCrudInterface
-     */
-    protected function setData(PgSqlCrudInterface $sqlCrudInterface, array $data)
-    {
-        $columns = array_flip($sqlCrudInterface->crudColumns());
-
-        foreach ($data as $column => $value)
-        {
-            if (isset($columns[$column]))
-            {
-                $methodName = 'set' . ucfirst($columns[$column]);
-                $sqlCrudInterface->$methodName($value);
-            }
-        }
-
-        return $sqlCrudInterface;
+        $this->dbInstance = $postgres;
     }
 
     /**
@@ -157,7 +81,7 @@ class PgSqlCrudManager
         }
 
         // add sorting
-        if($sortBy !== null)
+        if ($sortBy !== null)
         {
             $query .= " ORDER BY {$sortBy}";
         }
@@ -199,7 +123,7 @@ class PgSqlCrudManager
         }
 
         // add sorting
-        if($sortBy !== null)
+        if ($sortBy !== null)
         {
             $query .= " ORDER BY {$sortBy}";
         }
@@ -229,7 +153,7 @@ class PgSqlCrudManager
      * @param null $condsQuery
      *
      * @return bool|PgSqlCrudInterface
-     * @throws \Simplon\Postgres\PostgresException
+     * @throws PostgresException
      */
     public function update(PgSqlCrudInterface $sqlCrudInterface, array $conds, $condsQuery = null)
     {
@@ -237,7 +161,7 @@ class PgSqlCrudManager
         $sqlCrudInterface->crudBeforeSave(false);
 
         $response = $this->getDbInstance()->update(
-            $sqlCrudInterface::crudGetSource(),
+            $sqlCrudInterface->crudGetSource(),
             $conds,
             $this->getData($sqlCrudInterface),
             $this->getCondsQuery($conds, $condsQuery)
@@ -268,5 +192,89 @@ class PgSqlCrudManager
             $conds,
             $this->getCondsQuery($conds, $condsQuery)
         );
+    }
+
+    /**
+     * @return Postgres
+     */
+    private function getDbInstance()
+    {
+        return $this->dbInstance;
+    }
+
+    /**
+     * @param array $conds
+     * @param null $condsQuery
+     *
+     * @return string
+     */
+    protected function getCondsQuery(array $conds, $condsQuery = null)
+    {
+        if ($condsQuery !== null)
+        {
+            return (string)$condsQuery;
+        }
+
+        $condsString = array();
+
+        foreach ($conds as $key => $val)
+        {
+            $query = $key . ' = :' . $key;
+
+            if (is_array($val) === true)
+            {
+                $query = $key . ' IN (:' . $key . ')';
+            }
+
+            $condsString[] = $query;
+        }
+
+        return join(' AND ', $condsString);
+    }
+
+    /**
+     * @param PgSqlCrudInterface $sqlCrudInterface
+     *
+     * @return array
+     */
+    protected function getData(PgSqlCrudInterface &$sqlCrudInterface)
+    {
+        $data = array();
+
+        foreach ($sqlCrudInterface->crudColumns() as $variable => $column)
+        {
+            $methodName = 'get' . ucfirst($variable);
+            $columnValue = $sqlCrudInterface->$methodName();
+
+            // unset values will fallback to DEFAULT (omit field)
+            if ($columnValue !== 'PG:DEFAULT')
+            {
+                $data[$column] = $columnValue;
+            }
+        }
+
+        return $data;
+    }
+
+    /**
+     * @param PgSqlCrudInterface $sqlCrudInterface
+     * @param array $data
+     *
+     * @return PgSqlCrudInterface
+     */
+    protected function setData(PgSqlCrudInterface $sqlCrudInterface, array $data)
+    {
+        $columns = array_flip($sqlCrudInterface->crudColumns());
+
+        foreach ($data as $column => $value)
+        {
+            if (isset($columns[$column]))
+            {
+                $methodName = 'set' . ucfirst($columns[$column]);
+                $sqlCrudInterface->$methodName($value);
+            }
+        }
+
+        return $sqlCrudInterface;
     }
 }

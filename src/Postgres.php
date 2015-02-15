@@ -9,13 +9,19 @@ namespace Simplon\Postgres;
  */
 class Postgres
 {
-    /** @var  Postgres */
-    protected $dbh;
+    /**
+     * @var Postgres
+     */
+    private $dbh;
 
-    /** @var  int */
+    /**
+     * @var int
+     */
     protected $fetchMode;
 
-    /** @var  \PDOStatement */
+    /**
+     * @var \PDOStatement
+     */
     protected $lastStatement;
 
     /**
@@ -95,7 +101,7 @@ class Postgres
     }
 
     /**
-     * @param mixed $fetchMode
+     * @param int $fetchMode
      *
      * @return Postgres
      */
@@ -663,65 +669,6 @@ class Postgres
         }
 
         $query = 'INSERT' . ($insertIgnore === true ? ' IGNORE ' : null) . ' INTO ' . $tableName . ' (:COLUMN_NAMES) VALUES (:PARAM_NAMES)';
-
-        $placeholder = array(
-            'column_names' => array(),
-            'param_names'  => array(),
-        );
-
-        foreach ($data[0] as $columnName => $value)
-        {
-            $placeholder['column_names'][] = $columnName;
-            $placeholder['param_names'][] = ':' . $columnName;
-        }
-
-        $query = str_replace(':COLUMN_NAMES', join(', ', $placeholder['column_names']), $query);
-        $query = str_replace(':PARAM_NAMES', join(', ', $placeholder['param_names']), $query);
-
-        // ----------------------------------
-
-        $response = $this->prepareInsertReplace($query, $data);
-
-        if (!empty($response))
-        {
-            return (array)$response;
-        }
-
-        return false;
-    }
-
-    /**
-     * @param $tableName
-     * @param array $data
-     *
-     * @return array|bool
-     * @throws PostgresException
-     */
-    public function replace($tableName, array $data)
-    {
-        if (isset($data[0]))
-        {
-            throw new PostgresException("Multi-dimensional datasets are not allowed. Use 'Mysql::replaceMany()' instead");
-        }
-
-        return $this->replaceMany($tableName, array($data));
-    }
-
-    /**
-     * @param $tableName
-     * @param array $data
-     *
-     * @return array|bool
-     * @throws PostgresException
-     */
-    public function replaceMany($tableName, array $data)
-    {
-        if (!isset($data[0]))
-        {
-            throw new PostgresException("One-dimensional datasets are not allowed. Use 'Mysql::replace()' instead");
-        }
-
-        $query = 'REPLACE INTO ' . $tableName . ' (:COLUMN_NAMES) VALUES (:PARAM_NAMES)';
 
         $placeholder = array(
             'column_names' => array(),
