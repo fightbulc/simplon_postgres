@@ -763,7 +763,7 @@ There are really __not many__ requirements/restrictions:
 
 - __Set source:__ In case you have a table name which can't be easily pluralised (e.g. person/people) you can set the source yourself via ```PgSqlCrudVo::$crudSource``` within value object
 
-- __Set custom read query:__ In case you need a custom query to get your object you can set it when you instantiate the object ```new PgSqlCrudVo($query)```. 
+- __Set custom read query:__ In case you need a custom query to get your object you can set it when you instantiate the object ```new PgSqlCrudVo($query)``` or simply within your ```__construct() { parent::construct($query); }```.
 
 - __Callbacks:__ You can implement two methods which will be called prior/after saving an object: ```PgSqlCrudVo::crudBeforeSave($isCreateEvent)``` and ```PgSqlCrudVo::crudAfterSave($isCreateEvent)```. The manager
     will pass you a boolean to let you know what type of save process happens/happened. You could use this e.g. to set automatically ```created_at``` and ```updated_at``` fields. 
