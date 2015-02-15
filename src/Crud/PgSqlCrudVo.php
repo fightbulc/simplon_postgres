@@ -9,8 +9,6 @@ namespace Simplon\Postgres\Crud;
  */
 abstract class PgSqlCrudVo implements PgSqlCrudInterface
 {
-    const DEFAULT_VALUE = 'PG:DEFAULT';
-
     /**
      * @var string
      */
@@ -68,6 +66,14 @@ abstract class PgSqlCrudVo implements PgSqlCrudInterface
     public function crudColumns()
     {
         return $this->crudParseVariables();
+    }
+
+    /**
+     * @return string
+     */
+    public function crudPkName()
+    {
+        return 'id';
     }
 
     /**

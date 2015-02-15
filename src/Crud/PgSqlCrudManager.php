@@ -38,11 +38,14 @@ class PgSqlCrudManager
         $sqlCrudInterface->crudBeforeSave(true);
 
         // save to db
-        $insertId = $this->getDbInstance()->insert(
-            $sqlCrudInterface->crudGetSource(),
-            $this->getData($sqlCrudInterface),
-            $insertIgnore
-        );
+        $insertId = $this
+            ->getDbInstance()
+            ->insert(
+                $sqlCrudInterface->crudGetSource(),
+                $this->getData($sqlCrudInterface),
+                $sqlCrudInterface->crudPkName(),
+                $insertIgnore
+            );
 
         if ($insertId !== false)
         {
@@ -160,12 +163,14 @@ class PgSqlCrudManager
         // do something before we save
         $sqlCrudInterface->crudBeforeSave(false);
 
-        $response = $this->getDbInstance()->update(
-            $sqlCrudInterface->crudGetSource(),
-            $conds,
-            $this->getData($sqlCrudInterface),
-            $this->getCondsQuery($conds, $condsQuery)
-        );
+        $response = $this
+            ->getDbInstance()
+            ->update(
+                $sqlCrudInterface->crudGetSource(),
+                $conds,
+                $this->getData($sqlCrudInterface),
+                $this->getCondsQuery($conds, $condsQuery)
+            );
 
         if ($response !== false)
         {
@@ -187,11 +192,13 @@ class PgSqlCrudManager
      */
     public function delete($crudSource, array $conds, $condsQuery = null)
     {
-        return $this->getDbInstance()->delete(
-            $crudSource,
-            $conds,
-            $this->getCondsQuery($conds, $condsQuery)
-        );
+        return $this
+            ->getDbInstance()
+            ->delete(
+                $crudSource,
+                $conds,
+                $this->getCondsQuery($conds, $condsQuery)
+            );
     }
 
     /**
@@ -246,8 +253,11 @@ class PgSqlCrudManager
             $methodName = 'get' . ucfirst($variable);
             $columnValue = $sqlCrudInterface->$methodName();
 
-            // unset values will fallback to DEFAULT (omit field)
-            if ($columnValue !== 'PG:DEFAULT')
+            $includeValue =
+                $columnValue !== null
+                || ($columnValue === null && $variable !== $sqlCrudInterface->crudPkName()); // include NULL only if NOT primary key field
+
+            if ($includeValue === true)
             {
                 $data[$column] = $columnValue;
             }

@@ -32,7 +32,7 @@ class UserCrudVo extends \Simplon\Postgres\Crud\PgSqlCrudVo
     /**
      * @return string
      */
-    public function crudGetSource()
+    public static function crudGetSource()
     {
         return 'users_user';
     }
@@ -102,7 +102,7 @@ class UserCrudVo extends \Simplon\Postgres\Crud\PgSqlCrudVo
      */
     public function getId()
     {
-        return $this->id !== null ? (int)$this->id : self::DEFAULT_VALUE;
+        return $this->id !== null ? (int)$this->id : null;
     }
 
     /**
@@ -189,7 +189,7 @@ class UserCrudVo extends \Simplon\Postgres\Crud\PgSqlCrudVo
      */
     public function getUpdatedAt()
     {
-        return (int)$this->updatedAt;
+        return (new DateTime())->format('c');
     }
 
     /**
@@ -223,13 +223,16 @@ $dbh = new \Simplon\Postgres\Postgres(
 
 (new UserCrudVo())->setId(1);
 $pgSqlCrudManager = new \Simplon\Postgres\Crud\PgSqlCrudManager($dbh);
-$pgSqlCrudManager->create(
+$userCrudVo = $pgSqlCrudManager->create(
     (new UserCrudVo())
+        ->setId(40)
         ->setPubToken('PUB1233445')
         ->setPasswordHash('HASH12345')
         ->setName('Johnny')
         ->setEmail('johnny@foo.com')
 );
+
+die(var_dump($userCrudVo));
 //$pgSqlCrudManager->update(
 //    (new UserCrudVo())
 //        ->setPubToken('PUB1233445')

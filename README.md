@@ -758,7 +758,8 @@ There are really __not many__ requirements/restrictions:
 - Each value object reflects ```ONE OBJECT``` only - ```Postgres::fetchRow()``` fetches your data.
 - ```VARIABLE = COLUMN``` __Don't set any property in your value object__ which doesn't reflect your database table. __If you have to__,
     make either use of ```PgSqlCrudVo::crudColumns()``` or ```PgSqlCrudVo::crudIgnore()```. See ```Flexibility``` for description.
- 
+- In case of a ```PRIMARY KEY```: if your field name differs from ```id``` you need to set it via ```PgSqlCrudVo::crudPkName```. This is necessary for auto-incrementing the PK field as well as for receiving the ```lastInsertId```.    
+  
 #### 7.3. Flexibility
 
 - __Set source:__ In case you have a table name which can't be easily pluralised (e.g. person/people) you can set the source yourself via ```PgSqlCrudVo::$crudSource``` within value object
@@ -804,9 +805,7 @@ CREATE TABLE users (
 ```php
 class UserVo extends \Simplon\Postgres\Crud\PgSqlCrudVo
 {
-    // use DEFAULT if not set
-    protected $id = self::DEFAULT_VALUE;
-
+    protected $id;
     protected $name;
     protected $email;
     protected $createdAt;
@@ -911,9 +910,7 @@ In case your ```column names``` are totally off there is a way to match them any
 ```php
 class UserVo extends \Simplon\Postgres\Crud\PgSqlCrudVo
 {
-    // use DEFAULT if not set
-    protected $id = self::DEFAULT_VALUE;
-
+    protected $id;
     protected $name;
     protected $email;
     protected $createdAt;
@@ -942,9 +939,7 @@ Sometimes there are some ```helper properties``` which are not part of your data
 ```php
 class UserVo extends \Simplon\Postgres\Crud\PgSqlCrudVo
 {
-    // use DEFAULT if not set
-    protected $id = self::DEFAULT_VALUE;
-
+    protected $id;
     protected $name;
     protected $email;
     protected $createdAt;

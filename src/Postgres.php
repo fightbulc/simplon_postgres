@@ -47,12 +47,6 @@ class Postgres
                 $dns .= ';port=' . $options['port'];
             }
 
-            // use unix socket
-            if (isset($options['unixSocket']))
-            {
-                $dns = 'mysql:unix_socket=' . $options['unixSocket'];
-            }
-
             $dns .= ';dbname=' . $database;
             $dns .= ';options=--client_encoding=\'' . $charset . '\'';
 
@@ -312,13 +306,13 @@ class Postgres
     }
 
     /**
-     * @param $query
+     * @param string $query
      * @param array $rowsMany
      *
      * @return array
      * @throws PostgresException
      */
-    protected function prepareInsertReplace($query, array $rowsMany)
+    protected function prepareInsert($query, array $rowsMany)
     {
         $dbh = $this->getDbh();
         $responses = array();
@@ -352,10 +346,10 @@ class Postgres
             }
 
             // last insert|null
-            $lastInsert = $dbh->lastInsertId();
+            $lastInsert = $pdoStatement->fetch(\PDO::FETCH_NUM);
 
             // cache response
-            $responses[] = $lastInsert ? (int)$lastInsert : true;
+            $responses[] = $lastInsert !== false ? (int)$lastInsert[0] : true;
         }
 
         return $responses;
@@ -629,21 +623,22 @@ class Postgres
     }
 
     /**
-     * @param $tableName
+     * @param string $tableName
      * @param array $data
+     * @param string $pkName
      * @param bool $insertIgnore
      *
      * @return int|bool
      * @throws PostgresException
      */
-    public function insert($tableName, array $data, $insertIgnore = false)
+    public function insert($tableName, array $data, $pkName = null, $insertIgnore = false)
     {
         if (isset($data[0]))
         {
-            throw new PostgresException("Multi-dimensional datasets are not allowed. Use 'Mysql::insertMany()' instead");
+            throw new PostgresException("Multi-dimensional datasets are not allowed. Use 'Postgres::insertMany()' instead");
         }
 
-        $response = $this->insertMany($tableName, array($data), $insertIgnore);
+        $response = $this->insertMany($tableName, array($data), $pkName, $insertIgnore);
 
         if ($response !== false)
         {
@@ -654,21 +649,28 @@ class Postgres
     }
 
     /**
-     * @param $tableName
+     * @param string $tableName
      * @param array $data
+     * @param string $pkName
      * @param bool $insertIgnore
      *
      * @return array|bool
      * @throws PostgresException
      */
-    public function insertMany($tableName, array $data, $insertIgnore = false)
+    public function insertMany($tableName, array $data, $pkName = null, $insertIgnore = false)
     {
         if (!isset($data[0]))
         {
-            throw new PostgresException("One-dimensional datasets are not allowed. Use 'Mysql::insert()' instead");
+            throw new PostgresException("One-dimensional datasets are not allowed. Use 'Postgres::insert()' instead");
         }
 
         $query = 'INSERT' . ($insertIgnore === true ? ' IGNORE ' : null) . ' INTO ' . $tableName . ' (:COLUMN_NAMES) VALUES (:PARAM_NAMES)';
+
+        // enable returning insert id
+        if ($pkName !== null)
+        {
+            $query .= ' RETURNING ' . $pkName;
+        }
 
         $placeholder = array(
             'column_names' => array(),
@@ -686,7 +688,7 @@ class Postgres
 
         // ----------------------------------
 
-        $response = $this->prepareInsertReplace($query, $data);
+        $response = $this->prepareInsert($query, $data);
 
         if (!empty($response))
         {

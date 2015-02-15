@@ -30,6 +30,11 @@ interface PgSqlCrudInterface
     public function crudIgnore();
 
     /**
+     * @return string
+     */
+    public function crudPkName();
+
+    /**
      * @param bool $isCreateEvent
      *
      * @return bool
